@@ -1,0 +1,96 @@
+  
+    <!-- Bootstrap core JavaScript-->
+    <script src="/static/vendor/jquery/jquery.min.js"></script>
+    <script src="/static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="/static/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="/static/js/sb-admin-2.min.js"></script>
+
+    <!-- Page level plugins -->
+    <script src="/static/vendor/chart.js/Chart.min.js"></script>
+
+    <!-- Page level custom scripts -->
+    <script src="/static/js/demo/chart-area-demo.js"></script>
+    <script src="/static/js/demo/chart-pie-demo.js"></script>
+    <script src="/static/vendor/datatables/jquery.dataTables.min.js"></script>
+    <script src="/static/vendor/datatables/dataTables.bootstrap4.min.js"></script>
+
+    <script>
+        active_page='{{active_page}}';
+
+        function kirimtext(){
+            var text = $('#text-input').val();
+            $.ajax({
+                type:'POST',
+                url:"{{url_for('katatest')}}",
+                dataType: 'json',
+                data:text,
+                beforeSend:function(){
+                    $('.waiting-response').show()
+                },
+                success: function(response){
+                    $('.waiting-response').hide()
+                    console.log(response)
+                    $('#text-preprocess').text(response['sesudah'])
+                    $('#hasil-svm').text(response['hasilSVM'])
+                    $('#hasil-naive').text(response['hasilNB'])
+
+                }
+            })
+        }
+
+        $(document).ready(function() {
+            $('#dataTweet').DataTable({
+                "ajax":"/datapreprocess",
+                "searching": false,
+                "pageLength":5,
+                "lengthMenu":[[5,10,20,-1],[5,10,20,'Todos']]
+            });
+            $('.waiting-response').hide()
+
+        } );
+
+        if (active_page=='svm' || active_page=='naive') {
+            $(document).ready(function(){
+                if (active_page=='svm'){
+                    url = "{{url_for('klasifikasisvm')}}"
+                }else {
+                    url = "{{url_for('klasifikasinaive')}}"
+                }
+                $.ajax({
+                    type:'GET',
+                    url:url,
+                    dataType:'json',
+                    beforeSend:function(){
+                        $('.waiting-response').show()
+                    },
+                    success:function(result){
+                        $('.waiting-response').hide()
+                        $('#total').text(result['total'])
+                        $('#positif').text(result['positif'])
+                        $('#negatif').text(result['negatif'])
+                        $('#time_train').text(result['time_train'])
+                        $('#time_predict').text(result['time_predict'])
+                        $('#acc').text(result['acc'])
+                        $('#pcc').text(result['pcc'])
+                        $('#rec').text(result['rec'])
+                        $('#f1').text(result['f1'])
+                        $('#true-positif').text(result.cm[0][0])
+                        $('#true-negatif').text(result.cm[1][1])
+                        $('#false-positif').text(result.cm[0][1])
+                        $('#false-negatif').text(result.cm[1][0])
+
+                        console.log(result.cm_SVM[0][0])
+                    }
+                })
+            })
+        }
+            
+    </script>
+
+</body>
+
+</html>

@@ -17,7 +17,7 @@ from sklearn.model_selection import train_test_split
 from sklearn.metrics import precision_score, recall_score
 import nltk
 import pickle
-nltk.download('prunkt')
+nltk.download('punkt')
 nltk.download('stopwords')
 from nltk.tokenize import word_tokenize
 from nltk.corpus import stopwords

@@ -48,7 +48,7 @@ def labelToNumeric(category):
 # Index Page
 @app.route("/")
 def main():
-    file = '/home/pythonku/flask-app/data/Dataset.csv'
+    file = '/data/Dataset.csv'
 
     data = dataReading(file)
     positif, negatif = data['category'].value_counts()
@@ -65,7 +65,7 @@ def preprocess():
 
 @app.route('/datapreprocess',methods=['GET','POST'])
 def datapreprocess():
-    file = '/home/pythonku/flask-app/data/text_preprocessing.csv'
+    file = '/data/text_preprocessing.csv'
 
     data = dataReading(file)
     result = data.to_json(orient="split")
@@ -76,7 +76,7 @@ def datapreprocess():
 @app.route('/pembobotan', methods=['GET','POST'])
 def tfidf():
 
-    file = '/home/pythonku/flask-app/data/data_after_preprocessing.csv'
+    file = '/data/data_after_preprocessing.csv'
 
     data= dataReading(file)
     positif, negatif = data['category'].value_counts()
@@ -94,7 +94,7 @@ def analisisSVM():
 # SVM Processing
 @app.route('/klasifikasisvm', methods=['GET','POST'])
 def klasifikasisvm():
-    file = '/home/pythonku/flask-app/data/data_after_preprocessing.csv'
+    file = '/data/data_after_preprocessing.csv'
 
     data = dataReading(file)
     positif, negatif = data['category'].value_counts()
@@ -145,7 +145,7 @@ def analisisNB():
 # Naive Bayes Processing
 @app.route('/klasifikasinaive',methods=['GET','POST'])
 def klasifikasinaive():
-    file = '/home/pythonku/flask-app/data/data_after_preprocessing.csv'
+    file = '/data/data_after_preprocessing.csv'
 
     data = dataReading(file)
     positif, negatif = data['category'].value_counts()
@@ -202,10 +202,10 @@ def katatest():
     cv = CountVectorizer()
     tfidfconverter = TfidfTransformer()
     # import
-    classifierSVM = pickle.load(open('/home/pythonku/flask-app/data/classifierSVM.model','rb'))
-    classifierNB = pickle.load(open('/home/pythonku/flask-app/data/classifierNB.model', 'rb'))
-    cv = pickle.load(open('/home/pythonku/flask-app/data/cv.model', 'rb'))
-    tfidfconverter = pickle.load(open('/home/pythonku/flask-app/data/tfidfconverter.model','rb'))
+    classifierSVM = pickle.load(open('/data/classifierSVM.model','rb'))
+    classifierNB = pickle.load(open('/data/classifierNB.model', 'rb'))
+    cv = pickle.load(open('/data/cv.model', 'rb'))
+    tfidfconverter = pickle.load(open('/data/tfidfconverter.model','rb'))
 
     text = request.get_data()
     text = str(text,'UTF-8')
@@ -234,10 +234,10 @@ def katatest():
         hasilNB = 'Sentimen Positif'    
     
     # Save 
-    pickle.dump(classifierSVM,open('/home/pythonku/flask-app/data/classifierSVM.model','wb'))
-    pickle.dump(classifierNB,open('/home/pythonku/flask-app/data/classifierNB.model','wb'))
-    pickle.dump(cv, open('/home/pythonku/flask-app/data/cv.model','wb'))
-    pickle.dump(tfidfconverter, open('/home/pythonku/flask-app/data/tfidfconverter.model','wb'))
+    pickle.dump(classifierSVM,open('/data/classifierSVM.model','wb'))
+    pickle.dump(classifierNB,open('/data/classifierNB.model','wb'))
+    pickle.dump(cv, open('/data/cv.model','wb'))
+    pickle.dump(tfidfconverter, open('/data/tfidfconverter.model','wb'))
     
     dt = {
         'sebelum' : text_sebelum_preprocess,
@@ -290,13 +290,13 @@ def wordStopwords(words):
                        'jd', 'jgn', 'sdh', 'aja', 'n', 't', 
                        'nyg', 'hehe', 'pen', 'u', 'nan', 'loh', 'rt',
                        '&amp', 'yah'])
-    txt_stopwords = pd.read_csv('/home/pythonku/flask-app/data/stopwords.txt',names=['stopwords'], header=None)
+    txt_stopwords = pd.read_csv('/data/stopwords.txt',names=['stopwords'], header=None)
     list_stopwords.extend(txt_stopwords['stopwords'][0].split(' '))
     list_stopwords = set(list_stopwords)
     return [word for word in words if word not in list_stopwords]
     
 def wordNormalization(document):
-    normalization_word = pd.read_csv('/home/pythonku/flask-app/data/colloquial-indonesian-lexicon.csv')
+    normalization_word = pd.read_csv('/data/colloquial-indonesian-lexicon.csv')
     normalization_word_dict = {}
 
     for index, row in normalization_word.iterrows():

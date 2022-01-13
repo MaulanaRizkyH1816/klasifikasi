@@ -72,7 +72,7 @@ def datapreprocess():
 
     return result
 
-#TF-IDF
+#TF-IDF Page
 @app.route('/pembobotan', methods=['GET','POST'])
 def tfidf():
 
@@ -85,12 +85,13 @@ def tfidf():
      
     return render_template('pembobotan.html', active_page=active_page)
 
-# SVM
+# SVM Page
 @app.route('/svm', methods=['GET','POST'])
 def analisisSVM():
     active_page = 'svm'
     return render_template('svm.html',active_page=active_page)
 
+# SVM Processing
 @app.route('/klasifikasisvm', methods=['GET','POST'])
 def klasifikasisvm():
     file = '/home/pythonku/flask-app/data/data_after_preprocessing.csv'
@@ -135,11 +136,13 @@ def klasifikasisvm():
     result = jsonify(dt)
     return result
 
+# Naive Bayes Page
 @app.route('/naive', methods=['GET','POST'])
 def analisisNB():
     active_page = 'naive'
     return render_template('naive.html', active_page=active_page)
 
+# Naive Bayes Processing
 @app.route('/klasifikasinaive',methods=['GET','POST'])
 def klasifikasinaive():
     file = '/home/pythonku/flask-app/data/data_after_preprocessing.csv'
@@ -184,11 +187,13 @@ def klasifikasinaive():
     result = jsonify(dt)
     return result
 
+# Test Page
 @app.route('/test',methods=['GET','POST'])
 def testModel():
     active_page = 'test'
     return render_template('test.html', active_page=active_page)
 
+# Test Processing
 @app.route('/katatest',methods=['GET','POST'])
 def katatest():
 
@@ -327,4 +332,4 @@ def splitDatabase(X,Y):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)	
+    app.run(debug=True, port=33507)	

@@ -1,3 +1,4 @@
-web: python app.py
+heroku buildpacks:clear
+heroku buildpacks:add --index heroku/python
 heroku ps:scale web=1
 heroku config:add PORT=33507

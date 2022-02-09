@@ -24,7 +24,8 @@ from nltk.corpus import stopwords
 from nltk.tokenize.treebank import TreebankWordDetokenizer
 import time
 from flask import jsonify, request
-import json
+import json 
+from json import JSONEncoder
 
 
 from flask import Flask, render_template
@@ -35,6 +36,13 @@ classifierSVM= svm.SVC(C=0.5, degree=2, gamma='scale', kernel='sigmoid')
 classifierNB = MultinomialNB(fit_prior=False)
 cv = CountVectorizer()
 tfidconverter = TfidfTransformer()
+
+
+class NumpyArrayEncoder(JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, np.ndarray):
+            return obj.tolist()
+        return JSONEncoder.default(self,obj)
 
 
 def labelToNumeric(category):
@@ -72,18 +80,37 @@ def datapreprocess():
 
     return result
 
-#TF-IDF Page
-@app.route('/pembobotan', methods=['GET','POST'])
+#Cross Validation Page
+@app.route('/crossval', methods=['GET','POST'])
 def tfidf():
 
+    active_page='crossval'
+     
+    return render_template('crossval.html', active_page=active_page)
+
+#Cross validation Process
+@app.route('/proseskfold', methods=['GET', 'POST'])
+def proseskfold():
     file = 'data/data_after_preprocessing.csv'
 
-    data= dataReading(file)
+    data = dataReading(file)
     positif, negatif = data['category'].value_counts()
     total = positif + negatif
-    active_page='tfidf'
-     
-    return render_template('pembobotan.html', active_page=active_page)
+    X, Y = pembobotan(data)
+
+    scoresNaive = crossValidation(data, X, Y)
+
+    # app.logger.info(scoresSVM)
+    dt = {
+        "total": total,
+        "positif": positif,
+        "negatif": negatif,
+        "scoresNaive": scoresNaive,
+    }
+    encodedNumpyData = json.dumps(dt, cls=NumpyArrayEncoder)
+
+    result = jsonify(encodedNumpyData)
+    return result
 
 # SVM Page
 @app.route('/svm', methods=['GET','POST'])
@@ -319,12 +346,12 @@ def prosesStem(text):
     return stem
 
 def crossValidation(data, X, Y):
-    clfSVM = svm.SVC(C=0.5, degree=2, gamma='scale', kernel='sigmoid')
-    scoresSVM = cross_val_score(clfSVM, X, Y, cv=10)
+    # clfSVM = svm.SVC(C=0.5, degree=2, gamma='scale', kernel='sigmoid')
+    # scoresSVM = cross_val_score(clfSVM, X, Y, cv=10)
 
     clfNaive = MultinomialNB(fit_prior=False)
     scoresNaive = cross_val_score(clfNaive, X, Y, cv=10)
-    return scoresSVM, scoresNaive
+    return scoresNaive
 
 def splitDatabase(X,Y):
     X_train, X_test, y_train, y_test = train_test_split(X,Y, test_size=0.2, random_state=45)
@@ -332,4 +359,4 @@ def splitDatabase(X,Y):
 
 
 if __name__ == "__main__":
-    app.run(debug=True)	
+    app.run(debug=True, host="0.0.0.0")	

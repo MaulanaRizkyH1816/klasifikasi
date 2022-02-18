@@ -64,38 +64,65 @@
                         console.log(result["scoresNaive"])
                         var ctx = document.getElementById("myPieChartKross");
                         var myPiceChart = new Chart(ctx, {
-                            type:'doughnut',
-                            data:{
-                                labels: [ 'Positif', 'Negatif'],
-                                datasets:[{
-                                    label: 'Data Tweet',
-                                    data:[result["positif"],result["negatif"]],
-                                    backgroundColor: [
-                                    'rgb(255, 99, 132)',
-                                    'rgb(255, 205, 86)',
-                                    ],
-                                    hoverBackgroundColor: ['#2e59d9', '#17a673'],
-                                    hoverBorderColor: "rgba(234, 236, 244, 1)",
-                                    hoverOffset:4
-                                }]
+                            // type:'doughnut',
+                            // data:{
+                            //     labels: [ 'Positif', 'Negatif'],
+                            //     datasets:[{
+                            //         label: 'Data Tweet',
+                            //         data:[result["positif"],result["negatif"]],
+                            //         backgroundColor: [
+                            //         'rgb(255, 99, 132)',
+                            //         'rgb(255, 205, 86)',
+                            //         ],
+                            //         hoverBackgroundColor: ['#2e59d9', '#17a673'],
+                            //         hoverBorderColor: "rgba(234, 236, 244, 1)",
+                            //         hoverOffset:4
+                            //     }]
+                            // },
+                            // options: {
+                            //     maintainAspectRatio: false,
+                            //     tooltips: {
+                            //         backgroundColor: "rgb(255,255,255)",
+                            //         bodyFontColor: "#858796",
+                            //         borderColor: '#dddfeb',
+                            //         borderWidth: 1,
+                            //         xPadding: 15,
+                            //         yPadding: 15,
+                            //         displayColors: false,
+                            //         caretPadding: 10,
+                            //     },
+                            //     legend: {
+                            //         display: false
+                            //     },
+                            //     cutoutPercentage: 80,
+                            // }
+                            type: 'doughnut',
+                            data: {
+                                labels: ["Positif", "Negatif"],
+                                datasets: [{
+                                data: [result["positif"],result["negatif"]],
+                                backgroundColor: ['#4e73df', '#1cc88a',],
+                                hoverBackgroundColor: ['#2e59d9', '#17a673',],
+                                hoverBorderColor: "rgba(234, 236, 244, 1)",
+                                }],
                             },
                             options: {
                                 maintainAspectRatio: false,
                                 tooltips: {
-                                    backgroundColor: "rgb(255,255,255)",
-                                    bodyFontColor: "#858796",
-                                    borderColor: '#dddfeb',
-                                    borderWidth: 1,
-                                    xPadding: 15,
-                                    yPadding: 15,
-                                    displayColors: false,
-                                    caretPadding: 10,
+                                backgroundColor: "rgb(255,255,255)",
+                                bodyFontColor: "#858796",
+                                borderColor: '#dddfeb',
+                                borderWidth: 1,
+                                xPadding: 15,
+                                yPadding: 15,
+                                displayColors: false,
+                                caretPadding: 10,
                                 },
                                 legend: {
-                                    display: false
+                                display: false
                                 },
                                 cutoutPercentage: 80,
-                            }
+                            },
                         })
 
                         var ctx = document.getElementById("myAreaChartKross");
@@ -104,7 +131,7 @@
                             data: {
                                 labels: ["CV1", "CV2", "CV3", "CV4", "CV5", "CV6", "CV7", "CV8", "CV9", "CV10"],
                                 datasets: [{
-                                label: "K-Fold Cross Validation SVM Algorithm",
+                                label: "K-Fold Cross Validation Naive Bayes Algorithm",
                                 lineTension: 0.3,
                                 backgroundColor: "rgba(78, 115, 223, 0.05)",
                                 borderColor: "rgba(78, 115, 223, 1)",

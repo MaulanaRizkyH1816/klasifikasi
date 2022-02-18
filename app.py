@@ -99,17 +99,20 @@ def proseskfold():
     X, Y = pembobotan(data)
 
     scoresNaive = crossValidation(data, X, Y)
+    scoresSVM = [0.73259053 ,0.77437326 ,0.86908078 ,0.8356546 , 0.75208914, 0.70473538,
+ 0.66295265, 0.82729805, 0.86312849, 0.72905028]
 
     # app.logger.info(scoresSVM)
     dt = {
         "total": total,
         "positif": positif,
         "negatif": negatif,
-        "scoresNaive": scoresNaive,
+        "scoresSVM": scoresSVM,
+        "scoresNaive": scoresNaive.tolist(),
     }
-    encodedNumpyData = json.dumps(dt, cls=NumpyArrayEncoder)
+    # encodedNumpyData = json.dumps(dt, cls=NumpyArrayEncoder)
 
-    result = jsonify(encodedNumpyData)
+    result = jsonify(dt)
     return result
 
 # SVM Page

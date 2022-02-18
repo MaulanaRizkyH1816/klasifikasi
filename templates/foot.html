@@ -42,58 +42,7 @@
             })
         }
 
-        // var ctx = document.getElementById("myAreaChartKross");
-        // var myLineChart = new Chart(ctx,{
-        //     type:'line',
-        //     data:{
-        //         labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
-        //         datasets: [{
-        //             label:'My First Dataset',
-        //             data:[65,96,34,23,54,65],
-        //             fill:false,
-        //             borderColor: "rgba(78, 115, 223, 1)",
-        //             backgroundColor: "rgba(78, 115, 223, 0.05)",
-        //             tension: 0.1
-        //         }],
-        //     },
-        // });
-
-        // var ctx = document.getElementById("myPieChartKross");
-        // var myPiceChart = new Chart(ctx, {
-        //     type:'doughnut',
-        //     data:{
-        //         labels: [ 'Positif', 'Negatif'],
-        //         datasets:[{
-        //             label: 'Data Tweet',
-        //             data:[300,200],
-        //             backgroundColor: [
-        //             'rgb(255, 99, 132)',
-        //             'rgb(255, 205, 86)',
-        //             ],
-        //             hoverBackgroundColor: ['#2e59d9', '#17a673'],
-        //             hoverBorderColor: "rgba(234, 236, 244, 1)",
-        //             hoverOffset:4
-        //         }]
-        //     },
-        //     options: {
-        //         maintainAspectRatio: false,
-        //         tooltips: {
-        //             backgroundColor: "rgb(255,255,255)",
-        //             bodyFontColor: "#858796",
-        //             borderColor: '#dddfeb',
-        //             borderWidth: 1,
-        //             xPadding: 15,
-        //             yPadding: 15,
-        //             displayColors: false,
-        //             caretPadding: 10,
-        //         },
-        //         legend: {
-        //             display: false
-        //         },
-        //         cutoutPercentage: 80,
-        //     }
-        // })
-
+        
         $(document).ready(function() {
             $('#dataTweet').DataTable({
                 "ajax":"/datapreprocess",
@@ -153,10 +102,26 @@
                         var myLineChart = new Chart(ctx,{
                             type:'line',
                             data:{
-                                labels: ['CV1'],
+                                labels: ['CV1','CV2','CV3','CV4','CV5','CV6','CV7','CV8','CV9','CV10'],
                                 datasets: [{
-                                    label:'My First Dataset',
-                                    data:result["scoresNaive"][0],
+                                    label:'K-Fold Cross Validation Naive Bayes',
+                                    data:result["scoresNaive"],
+                                    fill:true,
+                                    borderColor: "rgba(78, 115, 223, 1)",
+                                    backgroundColor: "rgba(78, 115, 223, 0.05)",
+                                    tension: 0.1
+                                }],
+                            },
+                        });
+
+                        var ctx = document.getElementById("myAreaChartKrossSVM");
+                        var myLineChart = new Chart(ctx,{
+                            type:'line',
+                            data:{
+                                labels: ['CV1','CV2','CV3','CV4','CV5','CV6','CV7','CV8','CV9','CV10'],
+                                datasets: [{
+                                    label:'K-Fold Cross Validation SVM',
+                                    data:result["scoresSVM"],
                                     fill:true,
                                     borderColor: "rgba(78, 115, 223, 1)",
                                     backgroundColor: "rgba(78, 115, 223, 0.05)",
